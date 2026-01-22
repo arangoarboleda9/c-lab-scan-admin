@@ -8,7 +8,18 @@ import pyperclip
 from tkinter import messagebox
 from PIL import Image, ImageTk  # Añadido para manejo de imágenes
 import textwrap
+import sys # Añadido para el ejecutable
+import os  # Añadido para el ejecutable
 
+# --- FUNCIÓN PARA MANEJO DE RECURSOS EN EL EXE ---
+def resource_path(relative_path):
+    """ Obtiene la ruta de los recursos interna para PyInstaller """
+    try:
+        # PyInstaller crea una carpeta temporal y guarda la ruta en _MEIPASS
+        base_path = sys._MEIPASS # type: ignore
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 # --- CONFIGURACIÓN FIREBASE ---
 config = {
     "apiKey": "AIzaSyAXR9BZ6GejBrTWBWNdsOPKAICxzz7Kbj4",
@@ -123,8 +134,10 @@ class AppAdmin(ctk.CTk):
 
 # --- CARGA DE RECURSOS VISUALES ---
         try:
-            self.logo_image = ctk.CTkImage(light_image=Image.open("logo.png"), 
-                                          dark_image=Image.open("logo.png"), 
+            # Usamos resource_path para que encuentre el logo dentro del EXE
+            ruta_logo = resource_path("logo.png")
+            self.logo_image = ctk.CTkImage(light_image=Image.open(ruta_logo), 
+                                          dark_image=Image.open(ruta_logo), 
                                           size=(450, 180))
         except Exception as e:
             print(f"Error cargando imágenes: {e}")
