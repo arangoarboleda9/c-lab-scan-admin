@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest # Aquí es donde ocurre la magia (usa Windows real)
+    runs-on: windows-latest
 
     steps:
     - name: Checkout code
@@ -20,11 +20,18 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install customtkinter pyrebase4 matplotlib numpy Pillow pyinstaller
+        # Instalación de todas las librerías detectadas en tu código
+        pip install customtkinter pyrebase4 matplotlib numpy Pillow pyperclip pyinstaller
+        # tcl-bin ayuda a evitar errores de carga de la interfaz gráfica en el EXE
+        pip install tcl-bin
 
     - name: Build EXE with PyInstaller
       run: |
-        pyinstaller --noconsole --onefile --add-data "logo.png;." admin_app.py
+        # --noconsole: Oculta la ventana negra al abrir la app
+        # --onefile: Empaqueta todo en un solo archivo .exe
+        # --add-data: Incluye el logo dentro del ejecutable
+        # --collect-all: Asegura que CustomTkinter se incluya con todos sus temas y json
+        pyinstaller --noconsole --onefile --add-data "logo.png;." --collect-all customtkinter admin_app.py
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
