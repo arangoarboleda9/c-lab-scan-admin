@@ -22,7 +22,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 # --- CONFIGURACIÓN FIREBASE ---
 config = {
-    "apiKey": "AIzaSyAXR9BZ6GejBrTWBWNdsOPKAICxzz7Kbj4",
+    "apiKey": "",
     "authDomain": "encuestas-b3d90.firebaseapp.com",
     "databaseURL": "https://encuestas-b3d90-default-rtdb.firebaseio.com",
     "storageBucket": "encuestas-b3d90.firebasestorage.app"
